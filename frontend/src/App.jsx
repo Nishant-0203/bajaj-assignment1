@@ -51,6 +51,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
+
       {/* ── Header ── */}
       <header className="app-header">
         <div className="header-inner">
@@ -58,16 +59,31 @@ export default function App() {
             <div className="brand-icon">🌳</div>
             <span className="brand-text">HierarchyLab</span>
           </a>
-          <span className="header-badge">BFHL Challenge</span>
+          <div className="header-right">
+            <span className="header-dot" title="API live" />
+            <span className="header-badge">BFHL Challenge</span>
+          </div>
         </div>
       </header>
 
+      {/* ── Hero ── */}
+      <div className="hero">
+        <span className="hero-eyebrow">
+          <span className="hero-eyebrow-dot" />
+          Full Stack Engineering Challenge
+        </span>
+        <h1>
+          <span className="gradient-text">Tree Hierarchy</span>
+          <br />Analyser
+        </h1>
+        <p>
+          Paste edge pairs to instantly detect trees, cycles, and build
+          nested hierarchies with depth analysis.
+        </p>
+      </div>
+
       {/* ── Main ── */}
       <main className="main-content">
-        <div className="page-title">
-          <h1>Tree Hierarchy Analyser</h1>
-          <p>Enter edge pairs to detect trees, cycles, and build nested hierarchies in milliseconds.</p>
-        </div>
 
         <InputBox
           value={input}
@@ -85,29 +101,42 @@ export default function App() {
 
         {result && (
           <div className="results-grid">
+
             {/* Summary */}
             <Summary data={result.summary} />
 
-            {/* Meta: user info */}
-            <div className="glass-card" style={{ padding: "1rem 1.5rem" }}>
+            {/* Submission Info */}
+            <div className="glass-card" style={{ padding: "1.4rem 1.6rem" }}>
               <div className="card-heading">
                 <span className="card-heading-icon">🪪</span>
                 Submission Info
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "0.5rem", fontSize: "0.82rem", color: "var(--text-secondary)" }}>
-                <span><strong style={{ color: "var(--text-primary)" }}>ID: </strong>{result.user_id}</span>
-                <span><strong style={{ color: "var(--text-primary)" }}>Email: </strong>{result.email_id}</span>
-                <span><strong style={{ color: "var(--text-primary)" }}>Roll: </strong>{result.college_roll_number}</span>
+              <div className="meta-grid">
+                <div className="meta-item">
+                  <div className="meta-key">User ID</div>
+                  <div className="meta-val">{result.user_id}</div>
+                </div>
+                <div className="meta-item">
+                  <div className="meta-key">Email</div>
+                  <div className="meta-val">{result.email_id}</div>
+                </div>
+                <div className="meta-item">
+                  <div className="meta-key">Roll Number</div>
+                  <div className="meta-val">{result.college_roll_number}</div>
+                </div>
               </div>
             </div>
 
             {/* Trees */}
             {trees.length > 0 && (
-              <section className="hierarchies-section">
-                <div className="section-title">
-                  <span>🌲</span> Trees ({trees.length})
+              <section>
+                <div className="section-header">
+                  <span style={{ fontSize: "1rem" }}>🌲</span>
+                  <span className="section-label">Trees</span>
+                  <span className="section-count-badge">{trees.length}</span>
+                  <span className="section-line" />
                 </div>
-                <div className="hierarchy-list">
+                <div className="hierarchies-section">
                   {trees.map((item, i) => (
                     <ResultCard key={`tree-${item.root}`} item={item} index={i} />
                   ))}
@@ -117,11 +146,14 @@ export default function App() {
 
             {/* Cycles */}
             {cycles.length > 0 && (
-              <section className="hierarchies-section">
-                <div className="section-title">
-                  <span>🔄</span> Cyclic Groups ({cycles.length})
+              <section>
+                <div className="section-header">
+                  <span style={{ fontSize: "1rem" }}>🔄</span>
+                  <span className="section-label">Cyclic Groups</span>
+                  <span className="section-count-badge danger">{cycles.length}</span>
+                  <span className="section-line" />
                 </div>
-                <div className="hierarchy-list">
+                <div className="hierarchies-section">
                   {cycles.map((item, i) => (
                     <ResultCard key={`cycle-${item.root}`} item={item} index={i} />
                   ))}
@@ -129,62 +161,65 @@ export default function App() {
               </section>
             )}
 
-            {/* Invalid entries */}
-            {invalid.length > 0 && (
-              <div className="glass-card" style={{ padding: "1.25rem 1.5rem" }}>
-                <div className="card-heading">
-                  <span className="card-heading-icon">❌</span>
-                  Invalid Entries ({invalid.length})
-                </div>
-                <div className="chips-row">
-                  {invalid.map((e, i) => (
-                    <span key={i} className="chip invalid">{e || '""'}</span>
-                  ))}
-                </div>
+            {/* Invalid + Dupes row */}
+            {(invalid.length > 0 || dupes.length > 0) && (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+
+                {invalid.length > 0 && (
+                  <div className="glass-card" style={{ padding: "1.4rem 1.6rem" }}>
+                    <div className="card-heading">
+                      <span className="card-heading-icon">❌</span>
+                      Invalid Entries
+                      <span className="section-count-badge danger" style={{ marginLeft: "auto" }}>{invalid.length}</span>
+                    </div>
+                    <div className="chips-row">
+                      {invalid.map((e, i) => (
+                        <span key={i} className="chip invalid">{e || '""'}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {dupes.length > 0 && (
+                  <div className="glass-card" style={{ padding: "1.4rem 1.6rem" }}>
+                    <div className="card-heading">
+                      <span className="card-heading-icon">⚠️</span>
+                      Duplicate Edges
+                      <span className="section-count-badge" style={{ marginLeft: "auto", background: "rgba(251,191,36,0.1)", borderColor: "rgba(251,191,36,0.2)", color: "var(--accent-warning)" }}>{dupes.length}</span>
+                    </div>
+                    <div className="chips-row">
+                      {dupes.map((d, i) => (
+                        <span key={i} className="chip duplicate">{d}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               </div>
             )}
 
-            {/* Duplicate edges */}
-            {dupes.length > 0 && (
-              <div className="glass-card" style={{ padding: "1.25rem 1.5rem" }}>
-                <div className="card-heading">
-                  <span className="card-heading-icon">⚠️</span>
-                  Duplicate Edges ({dupes.length})
-                </div>
-                <div className="chips-row">
-                  {dupes.map((d, i) => (
-                    <span key={i} className="chip duplicate">{d}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Raw JSON (collapsible) */}
-            <details className="glass-card" style={{ padding: "1rem 1.5rem" }}>
-              <summary style={{ cursor: "pointer", fontSize: "0.82rem", color: "var(--text-secondary)", userSelect: "none", fontWeight: 600 }}>
+            {/* Raw JSON */}
+            <details className="glass-card raw-json-details">
+              <summary>
+                <span className="raw-json-toggle">▶</span>
                 📋 Raw JSON Response
               </summary>
-              <pre style={{
-                marginTop: "1rem",
-                fontFamily: "JetBrains Mono, monospace",
-                fontSize: "0.75rem",
-                color: "var(--text-secondary)",
-                background: "rgba(8,12,20,0.6)",
-                borderRadius: "var(--radius-sm)",
-                padding: "1rem",
-                overflowX: "auto",
-                lineHeight: 1.6,
-              }}>
+              <pre className="raw-json-pre">
                 {JSON.stringify(result, null, 2)}
               </pre>
             </details>
+
           </div>
         )}
       </main>
 
       {/* ── Footer ── */}
       <footer className="app-footer">
-        HierarchyLab · BFHL Challenge · Built with React + Express
+        <span>HierarchyLab</span>
+        <span className="footer-dot" />
+        <span>BFHL Challenge</span>
+        <span className="footer-dot" />
+        <span>Built with React + Express</span>
       </footer>
     </div>
   );

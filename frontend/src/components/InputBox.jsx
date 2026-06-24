@@ -17,23 +17,22 @@ A->`;
 
 export default function InputBox({ value, onChange, onSubmit, loading }) {
   function handleKey(e) {
-    // Ctrl+Enter submits
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       onSubmit();
     }
   }
 
-  function loadSample() {
-    onChange(SAMPLE);
-  }
-
   return (
     <section className="input-section">
       <div className="glass-card input-card">
-        <div className="input-label">
-          <span className="input-label-dot" />
-          Edge Input
+
+        <div className="input-top-row">
+          <div className="input-label">
+            <span className="input-label-dot" />
+            Edge Input
+          </div>
+          <span className="input-format-hint">X→Y · one per line</span>
         </div>
 
         <textarea
@@ -45,38 +44,21 @@ export default function InputBox({ value, onChange, onSubmit, loading }) {
           placeholder={"A->B\nA->C\nB->D\n\nEnter one edge per line…"}
           spellCheck={false}
           aria-label="Edge list input"
+          rows={7}
         />
 
         <div className="input-footer">
           <span className="input-hint">
-            Format: <code style={{ fontFamily: "JetBrains Mono, monospace", color: "var(--accent-primary)", fontSize: "0.78rem" }}>X-&gt;Y</code>
-            &nbsp;·&nbsp;One per line&nbsp;·&nbsp;Ctrl+Enter to submit
+            Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit
           </span>
-          <div style={{ display: "flex", gap: "0.6rem", alignItems: "center" }}>
+          <div className="btn-group">
             <button
-              onClick={loadSample}
+              className="btn-ghost"
+              onClick={() => onChange(SAMPLE)}
               disabled={loading}
-              style={{
-                background: "none",
-                border: "1px solid var(--border-subtle)",
-                borderRadius: "100px",
-                color: "var(--text-secondary)",
-                padding: "0.55rem 1.1rem",
-                fontSize: "0.82rem",
-                cursor: "pointer",
-                fontFamily: "inherit",
-                transition: "border-color 0.2s, color 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--border-glow)";
-                e.currentTarget.style.color = "var(--text-primary)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border-subtle)";
-                e.currentTarget.style.color = "var(--text-secondary)";
-              }}
+              title="Load full assignment example"
             >
-              Load Sample
+              ✦ Load Sample
             </button>
 
             <button
@@ -87,7 +69,7 @@ export default function InputBox({ value, onChange, onSubmit, loading }) {
             >
               {loading ? (
                 <>
-                  <span className="spinner" /> Processing…
+                  <span className="spinner" /> Analysing…
                 </>
               ) : (
                 <>
@@ -97,6 +79,7 @@ export default function InputBox({ value, onChange, onSubmit, loading }) {
             </button>
           </div>
         </div>
+
       </div>
     </section>
   );

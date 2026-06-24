@@ -112,9 +112,9 @@ async function processHierarchy(req, res) {
 
     // ── Step 6: Build response ───────────────────────────────────────────────
     return res.status(200).json({
-      user_id: "nishantbhalla_24062005",
-      email_id: "nishant.bhalla2023@vitbhopal.ac.in",
-      college_roll_number: "23BCE10001",
+      user_id: "nishantbhalla_32",
+      email_id: "nishant2082.be23@chitkara.edu.in",
+      college_roll_number: "2310992082",
       hierarchies,
       invalid_entries: invalidEntries,
       duplicate_edges: duplicateEdges,

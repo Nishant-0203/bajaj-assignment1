@@ -5,29 +5,23 @@ export default function Summary({ data }) {
     <div className="glass-card summary-card">
       <div className="card-heading">
         <span className="card-heading-icon">📊</span>
-        Summary
+        Analysis Summary
       </div>
 
       <div className="summary-stats">
         <div className="stat-box">
           <div className="stat-value">{total_trees}</div>
-          <div className="stat-label">Total Trees</div>
+          <div className="stat-label">Valid Trees</div>
         </div>
-        <div className="stat-box">
-          <div className="stat-value" style={{
-            background: total_cycles > 0
-              ? "linear-gradient(135deg, var(--accent-danger), #dc2626)"
-              : undefined,
-            WebkitBackgroundClip: total_cycles > 0 ? "text" : undefined,
-            backgroundClip: total_cycles > 0 ? "text" : undefined,
-          }}>
-            {total_cycles}
-          </div>
+
+        <div className={`stat-box ${total_cycles > 0 ? "danger-box" : ""}`}>
+          <div className="stat-value">{total_cycles}</div>
           <div className="stat-label">Cycle Groups</div>
         </div>
+
         <div className="stat-box highlight">
           <div className="stat-value">{largest_tree_root || "—"}</div>
-          <div className="stat-label">Largest Tree Root</div>
+          <div className="stat-label">Deepest Root</div>
         </div>
       </div>
     </div>
