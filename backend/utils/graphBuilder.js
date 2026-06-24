@@ -1,22 +1,10 @@
-/**
- * Processes raw input into clean edge list:
- *   - Validates each entry
- *   - Removes true duplicates (same X->Y seen more than once)
- *   - Enforces single-parent rule (only first parent for any child)
- *
- * Returns:
- *   validEdges    : [{src, dst}]  — edges that pass all rules
- *   invalidEntries: [string]      — raw strings that fail validation
- *   duplicateEdges: [string]      — strings that are exact duplicates (stored once per dup set)
- */
-
 const { validateEdge } = require("./validator");
 
 function buildEdgeList(rawData) {
   const invalidEntries = [];
   const duplicateEdges = [];
-  const seenEdgeStrings = new Set(); // for exact-duplicate tracking
-  const childParentMap = new Map(); // child -> first parent (single-parent rule)
+  const seenEdgeStrings = new Set();
+  const childParentMap = new Map();
   const validEdges = [];
 
   for (const raw of rawData) {
@@ -29,7 +17,6 @@ function buildEdgeList(rawData) {
 
     const key = `${src}->${dst}`;
 
-    // Exact duplicate check
     if (seenEdgeStrings.has(key)) {
       if (!duplicateEdges.includes(key)) {
         duplicateEdges.push(key);
@@ -38,7 +25,6 @@ function buildEdgeList(rawData) {
     }
     seenEdgeStrings.add(key);
 
-    // Single-parent rule: if dst already has a parent, silently ignore this edge
     if (childParentMap.has(dst)) {
       continue;
     }

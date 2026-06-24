@@ -5,19 +5,20 @@ import ResultCard from "./components/ResultCard";
 import Summary from "./components/Summary";
 import "./index.css";
 
+// fallback to local if env isn't available
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 export default function App() {
-  const [input, setInput]     = useState("");
-  const [result, setResult]   = useState(null);
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState(null);
+  const [error, setError] = useState(null);
 
   async function handleSubmit() {
     const trimmed = input.trim();
     if (!trimmed) return;
 
-    // Parse lines → array (supports newline-separated or comma-separated)
+    // clean up quotes and brackets from input string
     const data = trimmed
       .split(/[\r\n,]+/)
       .map((l) => l.trim().replace(/^["'\[{]+|["'\]}]+$/g, "").trim())
@@ -28,6 +29,7 @@ export default function App() {
     setResult(null);
 
     try {
+      // call our backend
       const { data: res } = await axios.post(`${API_URL}/bfhl`, { data }, {
         headers: { "Content-Type": "application/json" },
         timeout: 10_000,
@@ -44,15 +46,13 @@ export default function App() {
     }
   }
 
-  const trees   = result?.hierarchies?.filter((h) => !h.has_cycle) ?? [];
-  const cycles  = result?.hierarchies?.filter((h) => h.has_cycle)  ?? [];
+  const trees = result?.hierarchies?.filter((h) => !h.has_cycle) ?? [];
+  const cycles = result?.hierarchies?.filter((h) => h.has_cycle) ?? [];
   const invalid = result?.invalid_entries ?? [];
-  const dupes   = result?.duplicate_edges ?? [];
+  const dupes = result?.duplicate_edges ?? [];
 
   return (
     <div className="app-shell">
-
-      {/* ── Header ── */}
       <header className="app-header">
         <div className="header-inner">
           <a href="/" className="header-brand">
@@ -66,7 +66,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* ── Hero ── */}
       <div className="hero">
         <span className="hero-eyebrow">
           <span className="hero-eyebrow-dot" />
@@ -81,9 +80,7 @@ export default function App() {
         </p>
       </div>
 
-      {/* ── Main ── */}
       <main className="main-content">
-
         <InputBox
           value={input}
           onChange={setInput}
@@ -100,11 +97,8 @@ export default function App() {
 
         {result && (
           <div className="results-grid">
-
-            {/* Summary */}
             <Summary data={result.summary} />
 
-            {/* Submission Info */}
             <div className="glass-card" style={{ padding: "1.4rem 1.6rem" }}>
               <div className="card-heading">
                 <span className="card-heading-icon">🪪</span>
@@ -126,7 +120,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Trees */}
             {trees.length > 0 && (
               <section>
                 <div className="section-header">
@@ -143,7 +136,6 @@ export default function App() {
               </section>
             )}
 
-            {/* Cycles */}
             {cycles.length > 0 && (
               <section>
                 <div className="section-header">
@@ -160,10 +152,8 @@ export default function App() {
               </section>
             )}
 
-            {/* Invalid + Dupes row */}
             {(invalid.length > 0 || dupes.length > 0) && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
-
                 {invalid.length > 0 && (
                   <div className="glass-card" style={{ padding: "1.4rem 1.6rem" }}>
                     <div className="card-heading">
@@ -193,11 +183,9 @@ export default function App() {
                     </div>
                   </div>
                 )}
-
               </div>
             )}
 
-            {/* Raw JSON */}
             <details className="glass-card raw-json-details">
               <summary>
                 <span className="raw-json-toggle">▶</span>
@@ -207,12 +195,10 @@ export default function App() {
                 {JSON.stringify(result, null, 2)}
               </pre>
             </details>
-
           </div>
         )}
       </main>
 
-      {/* ── Footer ── */}
       <footer className="app-footer">
         <span>Bajaj Finserv Health</span>
         <span className="footer-dot" />

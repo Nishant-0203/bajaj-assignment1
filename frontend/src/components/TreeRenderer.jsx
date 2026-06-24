@@ -1,15 +1,10 @@
-/**
- * TreeRenderer — recursively renders a nested tree object as an indented
- * Unicode-branch structure (similar to the `tree` CLI command).
- */
-
 const BRANCH = "├─";
-const LAST   = "└─";
+const LAST = "└─";
 
 function TreeNode({ name, subtree, isLast = false, depth = 0 }) {
   const children = subtree ? Object.entries(subtree) : [];
-  const isLeaf   = children.length === 0;
-  const isRoot   = depth === 0;
+  const isLeaf = children.length === 0;
+  const isRoot = depth === 0;
 
   return (
     <div className="tree-node">

@@ -1,3 +1,4 @@
+// sample data for quick testing
 const SAMPLE = `A->B
 A->C
 B->D
@@ -16,6 +17,7 @@ hello
 A->`;
 
 export default function InputBox({ value, onChange, onSubmit, loading }) {
+  // submit on ctrl+enter
   function handleKey(e) {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
@@ -52,6 +54,13 @@ export default function InputBox({ value, onChange, onSubmit, loading }) {
             Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit
           </span>
           <div className="btn-group">
+            <button
+              className="btn-ghost"
+              onClick={() => onChange("")}
+              disabled={loading || !value}
+            >
+              Clear
+            </button>
             <button
               className="btn-ghost"
               onClick={() => onChange(SAMPLE)}
