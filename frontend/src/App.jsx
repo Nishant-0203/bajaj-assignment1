@@ -56,12 +56,12 @@ export default function App() {
       <header className="app-header">
         <div className="header-inner">
           <a href="/" className="header-brand">
-            <div className="brand-icon">🌳</div>
-            <span className="brand-text">HierarchyLab</span>
+            <div className="brand-icon">🏥</div>
+            <span className="brand-text">Bajaj Finserv Health</span>
           </a>
           <div className="header-right">
             <span className="header-dot" title="API live" />
-            <span className="header-badge">BFHL Challenge</span>
+            <span className="header-badge">BFHL Round 1</span>
           </div>
         </div>
       </header>
@@ -70,15 +70,14 @@ export default function App() {
       <div className="hero">
         <span className="hero-eyebrow">
           <span className="hero-eyebrow-dot" />
-          Full Stack Engineering Challenge
+          Bajaj Finserv Health · Round 1 Assignment
         </span>
         <h1>
-          <span className="gradient-text">Tree Hierarchy</span>
-          <br />Analyser
+          <span className="gradient-text">BFHL Tree</span>
+          <br />Hierarchy Analyser
         </h1>
         <p>
-          Paste edge pairs to instantly detect trees, cycles, and build
-          nested hierarchies with depth analysis.
+          Submit edge pairs to the <code style={{fontFamily:'JetBrains Mono,monospace', fontSize:'0.9em', color:'var(--accent-primary)'}}>POST /bfhl</code> endpoint — detect trees, cycles, and build nested hierarchies instantly.
         </p>
       </div>
 
@@ -215,9 +214,9 @@ export default function App() {
 
       {/* ── Footer ── */}
       <footer className="app-footer">
-        <span>HierarchyLab</span>
+        <span>Bajaj Finserv Health</span>
         <span className="footer-dot" />
-        <span>BFHL Challenge</span>
+        <span>BFHL Round 1 Assignment</span>
         <span className="footer-dot" />
         <span>Built with React + Express</span>
       </footer>
