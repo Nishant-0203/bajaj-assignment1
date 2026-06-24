@@ -8,12 +8,12 @@
 ## 📸 Screenshots
 
 ### Frontend — Input & Analysis UI
-![Frontend Input View](https://raw.githubusercontent.com/Nishant-0203/bajaj-assignment1/main/docs/frontend_initial.png)
+![Frontend Input View](docs/frontend_initial.png)
 
 > *Edge input panel with Load Sample and Analyse controls*
 
 ### Frontend — Results View
-![Frontend Results View](https://raw.githubusercontent.com/Nishant-0203/bajaj-assignment1/main/docs/frontend_result.png)
+![Frontend Results View](docs/frontend_result.png)
 
 > *Analysis summary, tree hierarchies, cyclic groups, invalid entries, and raw JSON response*
 
