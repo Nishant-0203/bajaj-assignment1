@@ -3,8 +3,17 @@ A->C
 B->D
 C->E
 E->F
+X->Y
+Y->Z
+Z->X
 P->Q
-Q->R`;
+Q->R
+G->H
+G->H
+G->I
+hello
+1->2
+A->`;
 
 export default function InputBox({ value, onChange, onSubmit, loading }) {
   function handleKey(e) {

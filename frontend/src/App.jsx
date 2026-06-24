@@ -17,10 +17,10 @@ export default function App() {
     const trimmed = input.trim();
     if (!trimmed) return;
 
-    // Parse lines → array
+    // Parse lines → array (supports newline-separated or comma-separated)
     const data = trimmed
-      .split(/\r?\n/)
-      .map((l) => l.trim())
+      .split(/[\r\n,]+/)
+      .map((l) => l.trim().replace(/^["'\[{]+|["'\]}]+$/g, "").trim())
       .filter(Boolean);
 
     setLoading(true);
